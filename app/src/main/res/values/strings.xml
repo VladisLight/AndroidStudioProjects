@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="hello">Hello world</string>
-    <string name="btn1">Update the text</string>
+    <string name="btn1">Increase number</string>
     <string name="HelloJava">Hello from Java</string>
     <string name="Text_after">Button pressed</string>
-    <string name="hint">Empty</string>
     <string name="tv2">Count clicks</string>
+    <string name="btn2">Decrease number</string>
 
 </resources>

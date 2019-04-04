@@ -3,26 +3,20 @@ package com.example.bondarenko;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import static android.widget.AdapterView.*;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     TextView tv;
     Button button1;
-    EditText edit;
+    Button button2;
     TextView tv2;
     int counter = 0;
-
-    ListView listView;
     ArrayList nameList = new ArrayList();
     ArrayAdapter arrayAdapter;
 
@@ -37,29 +31,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv2.setText("Number of clicks");
 
         button1 = findViewById(R.id.btn1);
-        button1.setOnClickListener(this);
-        edit = findViewById(R.id.edit);
-
-        listView = findViewById(R.id.listview);
+        View.OnClickListener onClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrayAdapter.notifyDataSetChanged();
+                counter = counter + 1;
+                tv2.setText("Кнопка нажата " +Integer.toString(counter) + getEndWord());            }
+        };
+        View.OnClickListener DecreaseClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrayAdapter.notifyDataSetChanged();
+                counter = counter - 1;
+                tv2.setText("Кнопка нажата "+ Integer.toString(counter)+ getEndWord());            }
+        };
+        button1.setOnClickListener(onClick);
+        button2 = findViewById(R.id.btn2);
+        button2.setOnClickListener(DecreaseClick);
         arrayAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, nameList);
-        listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        //tv.setText(getString(R.string.Text_after));
-        //tv.setText(edit.getText());
+    private String getEndWord() {
+        long absScore = Math.abs(counter);
+        long lastScoreDigit = absScore % 10;
+        if (lastScoreDigit == 0 || lastScoreDigit == 1)
+            return " раз";
+        if (absScore == 2 || absScore == 3 || absScore == 4)
+            return " раза";
+        if (absScore < 20)
+            return " раз";
+        return " раза";
+    }
 
-        nameList.add(edit.getText().toString());
-        arrayAdapter.notifyDataSetChanged();
-        counter = counter + 1;
-        tv2.setText(Integer.toString(counter));
-    }
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        tv.setText(nameList.get(position).toString());
-    }
+    //@Override
+    //public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //tv.setText(nameList.get(position).toString());
+    //}
 }
 
